@@ -18,6 +18,20 @@ type coordinate struct {
 	SS float64 // sec
 }
 
+// ParseCoordinates the function parses the incoming string and returns data structures Coordinates
+func ParseCoordinates(coordinateN, coordinateE, format string) (*Coordinates, error) {
+	// FIXME ошибка парсинга в дробной части
+	c, err := ValidateCoordinatesData(coordinateN, coordinateE, format)
+	if err != nil {
+		return nil, fmt.Errorf("input data %s", err)
+	}
+
+	c.Format = format
+	c.buildCoordinates()
+
+	return c, err
+}
+
 // buildCoordinates the method collects coordinates in the structure parametres CoordinateN and CoordinateE
 func (obj *Coordinates) buildCoordinates() {
 	switch obj.formatType {
